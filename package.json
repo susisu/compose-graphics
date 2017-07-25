@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint src",
+    "fix": "eslint src --fix"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/susisu/compose-graphics.git"
@@ -14,5 +17,7 @@
     "url": "https://github.com/susisu/compose-graphics/issues"
   },
   "homepage": "https://github.com/susisu/compose-graphics#readme",
-  "dependencies": {}
+  "dependencies": {
+    "eslint": "^4.3.0"
+  }
 }
