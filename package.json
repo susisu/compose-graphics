@@ -9,8 +9,8 @@
   "main": "dist/compose-graphics.js",
   "module": "dist/compose-graphics.mjs",
   "scripts": {
-    "lint": "eslint src",
-    "fix": "eslint src --fix",
+    "lint": "eslint src test",
+    "fix": "eslint src test --fix",
     "test": "nyc -r html -r text mocha --compilers js:babel-core/register",
     "build": "rollup -c",
     "prepare": "run-s lint test build",
