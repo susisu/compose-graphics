@@ -1,0 +1,19 @@
+{
+  "title": "compose-graphics",
+  "source": "lib",
+  "destination": "doc",
+  "lint": false,
+  "test": {
+    "type": "mocha",
+    "source": "test",
+    "includes": ["\\.js$"]
+  },
+  "plugins": [
+    {
+      "name": "esdoc-importpath-plugin",
+      "option": {
+        "replaces": [{ "from": "^lib/.*\\.js$", "to": "dist/compose-graphics.js" }]
+      }
+    }
+  ]
+}
