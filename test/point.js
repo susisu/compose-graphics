@@ -5,7 +5,13 @@ import { expect } from "chai";
 import { Point } from "../lib/point.js";
 
 describe("point", () => {
+  /**
+   * @test {Point}
+   */
   describe("Point", () => {
+    /**
+     * @test {Point.constructor}
+     */
     describe("constructor(x, y)", () => {
       it("should create a new Point object", () => {
         const p = new Point(0, 1);
@@ -15,6 +21,9 @@ describe("point", () => {
       });
     });
 
+    /**
+     * @test {Point.of}
+     */
     describe(".of(src)", () => {
       context("when `src` is a Point object", () => {
         it("should return `src` itself", () => {
@@ -55,6 +64,9 @@ describe("point", () => {
       });
     });
 
+    /**
+     * @test {Point#x}
+     */
     describe("#x", () => {
       it("should be read-only", () => {
         const p = new Point(0, 1);
@@ -62,6 +74,9 @@ describe("point", () => {
       });
     });
 
+    /**
+     * @test {Point#y}
+     */
     describe("#y", () => {
       it("should be read-only", () => {
         const p = new Point(0, 1);
@@ -69,6 +84,9 @@ describe("point", () => {
       });
     });
 
+    /**
+     * @test {Point#clone}
+     */
     describe("#clone()", () => {
       it("should return a copy of the Point object", () => {
         const p = new Point(0, 1);
