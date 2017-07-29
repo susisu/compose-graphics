@@ -97,5 +97,33 @@ describe("point", () => {
         expect(q.y).to.equal(1);
       });
     });
+
+    /**
+     * @test {Point#add}
+     */
+    describe("#add(point)", () => {
+      it("should return a new Point object with corrdinates added", () => {
+        const p = new Point(0, 1);
+        const q = new Point(2, 3);
+        const r = p.add(q);
+        expect(r).to.be.an.instanceOf(Point);
+        expect(r.x).to.equal(2);
+        expect(r.y).to.equal(4);
+      });
+    });
+
+    /**
+     * @test {Point#sub}
+     */
+    describe("#sub(point)", () => {
+      it("should return a new Point object with corrdinates subtracted", () => {
+        const p = new Point(0, 1);
+        const q = new Point(2, 3);
+        const r = p.sub(q);
+        expect(r).to.be.an.instanceOf(Point);
+        expect(r.x).to.equal(-2);
+        expect(r.y).to.equal(-2);
+      });
+    });
   });
 });
