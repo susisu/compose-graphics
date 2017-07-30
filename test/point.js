@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 
 import { expect } from "chai";
 
@@ -81,6 +82,19 @@ describe("point", () => {
       it("should be read-only", () => {
         const p = new Point(0, 1);
         expect(() => { p.y = 2; }).to.throw(Error);
+      });
+    });
+
+    /**
+     * @test {Point#equals}
+     */
+    describe("#equals(point)", () => {
+      it("should check if the point is identical to another point", () => {
+        const p = new Point(0, 1);
+        expect(p.equals(new Point(0, 1))).to.be.true;
+        expect(p.equals(new Point(0, 2))).to.be.false;
+        expect(p.equals(new Point(2, 1))).to.be.false;
+        expect(p.equals(new Point(2, 3))).to.be.false;
       });
     });
 
