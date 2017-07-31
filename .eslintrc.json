@@ -64,6 +64,8 @@
 
     "no-label-var": ["error"],
     "no-shadow-restricted-names": ["error"],
+    "no-unused-vars": ["error", {
+      "args": "none" }],
     "no-use-before-define": ["error", {
       "functions": false }],
 
