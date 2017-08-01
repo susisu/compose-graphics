@@ -66,9 +66,11 @@ describe("point", () => {
      * @test {Point#x}
      */
     describe("#x", () => {
-      it("should be read-only", () => {
+      it("should be readable and writable", () => {
         const p = new Point(0, 1);
-        expect(() => { p.x = 2; }).to.throw(Error);
+        expect(p.x).to.equal(0);
+        p.x = 2;
+        expect(p.x).to.equal(2);
       });
     });
 
@@ -76,9 +78,11 @@ describe("point", () => {
      * @test {Point#y}
      */
     describe("#y", () => {
-      it("should be read-only", () => {
+      it("should be readable and writable", () => {
         const p = new Point(0, 1);
-        expect(() => { p.y = 2; }).to.throw(Error);
+        expect(p.y).to.equal(1);
+        p.y = 2;
+        expect(p.y).to.equal(2);
       });
     });
 
