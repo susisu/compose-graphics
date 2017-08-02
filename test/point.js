@@ -63,6 +63,19 @@ describe("point", () => {
     });
 
     /**
+     * @test {Point.deserialize}
+     */
+    describe(".deserialize(obj)", () => {
+      it("should return a new Point object whose `x` and `y` are the first and second elements of `obj`", () => {
+        const p = [0, 1];
+        const q = Point.deserialize(p);
+        expect(q).to.be.an.instanceOf(Point);
+        expect(q.x).to.equal(0);
+        expect(q.y).to.equal(1);
+      });
+    });
+
+    /**
      * @test {Point#x}
      */
     describe("#x", () => {
@@ -87,15 +100,12 @@ describe("point", () => {
     });
 
     /**
-     * @test {Point#equals}
+     * @test {Point#serialize}
      */
-    describe("#equals(point)", () => {
-      it("should check if the point is identical to another point", () => {
+    describe("#serialize()", () => {
+      it("should create an array containing two elements which are X- and Y-coordinates", () => {
         const p = new Point(0, 1);
-        expect(p.equals(new Point(0, 1))).to.be.true;
-        expect(p.equals(new Point(0, 2))).to.be.false;
-        expect(p.equals(new Point(2, 1))).to.be.false;
-        expect(p.equals(new Point(2, 3))).to.be.false;
+        expect(p.serialize()).to.deep.equal([0, 1]);
       });
     });
 
@@ -110,6 +120,19 @@ describe("point", () => {
         expect(q).to.be.an.instanceOf(Point);
         expect(q.x).to.equal(0);
         expect(q.y).to.equal(1);
+      });
+    });
+
+    /**
+     * @test {Point#equals}
+     */
+    describe("#equals(point)", () => {
+      it("should check if the point is identical to another point", () => {
+        const p = new Point(0, 1);
+        expect(p.equals(new Point(0, 1))).to.be.true;
+        expect(p.equals(new Point(0, 2))).to.be.false;
+        expect(p.equals(new Point(2, 1))).to.be.false;
+        expect(p.equals(new Point(2, 3))).to.be.false;
       });
     });
 
