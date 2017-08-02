@@ -66,12 +66,12 @@ describe("point", () => {
      * @test {Point.deserialize}
      */
     describe(".deserialize(obj)", () => {
-      it("should return a new Point object whose `x` and `y` are the first and second elements of `obj`", () => {
-        const p = [0, 1];
-        const q = Point.deserialize(p);
+      it("should be an inverse function of Point#serialize", () => {
+        const p = new Point(0, 1);
+        const q = Point.deserialize(p.serialize());
         expect(q).to.be.an.instanceOf(Point);
-        expect(q.x).to.equal(0);
-        expect(q.y).to.equal(1);
+        expect(q.x).to.equal(p.x);
+        expect(q.y).to.equal(p.y);
       });
     });
 
