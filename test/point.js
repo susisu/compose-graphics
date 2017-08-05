@@ -137,6 +137,19 @@ describe("point", () => {
     });
 
     /**
+     * @test {Point#scale}
+     */
+    describe("#scale(ratio)", () => {
+      it("should return a new Point object whose length is scaled by `ratio`", () => {
+        const p = new Point(1, 2);
+        const q = p.scale(3);
+        expect(q).to.be.an.instanceOf(Point);
+        expect(q.x).to.equal(3);
+        expect(q.y).to.equal(6);
+      });
+    });
+
+    /**
      * @test {Point#add}
      */
     describe("#add(point)", () => {
