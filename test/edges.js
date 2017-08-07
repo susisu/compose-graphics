@@ -51,6 +51,21 @@ describe("edges", () => {
         expect(line.end).to.equal(p3);
       });
     });
+
+    /**
+     * @test {Line#pointAt}
+     */
+    describe("#pointAt(t)", () => {
+      it("should return a point object that represents a point at `t` on the line segment", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(2, 2);
+        const line = new Line(p1, p2);
+        const q = line.pointAt(0.5);
+        expect(q).to.be.an.instanceOf(Point);
+        expect(q.x).to.be.closeTo(1.5, 1e-8);
+        expect(q.y).to.be.closeTo(1.5, 1e-8);
+      });
+    });
   });
 
   /**
@@ -118,6 +133,22 @@ describe("edges", () => {
         const p4 = new Point(6, 7);
         curve.end = p4;
         expect(curve.end).to.equal(p4);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#pointAt}
+     */
+    describe("#pointAt(t)", () => {
+      it("should return a point object that represents a point at `t` on the curve", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(1, 2);
+        const p3 = new Point(2, 2);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        const q = curve.pointAt(0.5);
+        expect(q).to.be.an.instanceOf(Point);
+        expect(q.x).to.be.closeTo(1.25, 1e-8);
+        expect(q.y).to.be.closeTo(1.75, 1e-8);
       });
     });
   });
@@ -209,6 +240,23 @@ describe("edges", () => {
         const p5 = new Point(8, 9);
         curve.end = p5;
         expect(curve.end).to.equal(p5);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#pointAt}
+     */
+    describe("#pointAt(t)", () => {
+      it("should return a point object that represents a point at `t` on the curve", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(1, 2);
+        const p3 = new Point(2, 2);
+        const p4 = new Point(2, 1);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        const q = curve.pointAt(0.5);
+        expect(q).to.be.an.instanceOf(Point);
+        expect(q.x).to.be.closeTo(1.5, 1e-8);
+        expect(q.y).to.be.closeTo(1.75, 1e-8);
       });
     });
   });
