@@ -80,6 +80,9 @@ describe("edges", () => {
         for (const t of [0.25, 0.5, 0.75]) {
           const splits = line.splitAt(t);
           expect(splits).to.be.an("array").that.has.length(2);
+          expect(splits[0].start).not.to.equal(line.start);
+          expect(splits[1].end).not.to.equal(line.end);
+          expect(splits[0].end).not.to.equal(splits[1].start);
           for (const u of [0.25, 0.5, 0.75]) {
             {
               const q1 = splits[0].pointAt(u);
@@ -195,6 +198,9 @@ describe("edges", () => {
         for (const t of [0.25, 0.5, 0.75]) {
           const splits = curve.splitAt(t);
           expect(splits).to.be.an("array").that.has.length(2);
+          expect(splits[0].start).not.to.equal(curve.start);
+          expect(splits[1].end).not.to.equal(curve.end);
+          expect(splits[0].end).not.to.equal(splits[1].start);
           for (const u of [0.25, 0.5, 0.75]) {
             {
               const q1 = splits[0].pointAt(u);
@@ -334,6 +340,9 @@ describe("edges", () => {
         for (const t of [0.25, 0.5, 0.75]) {
           const splits = curve.splitAt(t);
           expect(splits).to.be.an("array").that.has.length(2);
+          expect(splits[0].start).not.to.equal(curve.start);
+          expect(splits[1].end).not.to.equal(curve.end);
+          expect(splits[0].end).not.to.equal(splits[1].start);
           for (const u of [0.25, 0.5, 0.75]) {
             {
               const q1 = splits[0].pointAt(u);
