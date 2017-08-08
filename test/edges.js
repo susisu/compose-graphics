@@ -4,6 +4,8 @@ import { Point } from "../lib/point.js";
 import { Line, QuadraticBezier, CubicBezier } from "../lib/edges.js";
 
 describe("edges", () => {
+  const EPS = 1e-8;
+
   /**
    * @test {Line}
    */
@@ -62,8 +64,37 @@ describe("edges", () => {
         const line = new Line(p1, p2);
         const q = line.pointAt(0.5);
         expect(q).to.be.an.instanceOf(Point);
-        expect(q.x).to.be.closeTo(1.5, 1e-8);
-        expect(q.y).to.be.closeTo(1.5, 1e-8);
+        expect(q.x).to.be.closeTo(1.5, EPS);
+        expect(q.y).to.be.closeTo(1.5, EPS);
+      });
+    });
+
+    /**
+     * @test {Line#splitAt}
+     */
+    describe("#splitAt(t)", () => {
+      it("should return two split line segments", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(2, 2);
+        const line = new Line(p1, p2);
+        for (const t of [0.25, 0.5, 0.75]) {
+          const splits = line.splitAt(t);
+          expect(splits).to.be.an("array").that.has.length(2);
+          for (const u of [0.25, 0.5, 0.75]) {
+            {
+              const q1 = splits[0].pointAt(u);
+              const q2 = line.pointAt(t * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+            {
+              const q1 = splits[1].pointAt(u);
+              const q2 = line.pointAt(t + (1 - t) * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+          }
+        }
       });
     });
   });
@@ -147,8 +178,38 @@ describe("edges", () => {
         const curve = new QuadraticBezier(p1, p2, p3);
         const q = curve.pointAt(0.5);
         expect(q).to.be.an.instanceOf(Point);
-        expect(q.x).to.be.closeTo(1.25, 1e-8);
-        expect(q.y).to.be.closeTo(1.75, 1e-8);
+        expect(q.x).to.be.closeTo(1.25, EPS);
+        expect(q.y).to.be.closeTo(1.75, EPS);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#splitAt}
+     */
+    describe("#splitAt(t)", () => {
+      it("should return two split curves", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(1, 2);
+        const p3 = new Point(2, 2);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        for (const t of [0.25, 0.5, 0.75]) {
+          const splits = curve.splitAt(t);
+          expect(splits).to.be.an("array").that.has.length(2);
+          for (const u of [0.25, 0.5, 0.75]) {
+            {
+              const q1 = splits[0].pointAt(u);
+              const q2 = curve.pointAt(t * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+            {
+              const q1 = splits[1].pointAt(u);
+              const q2 = curve.pointAt(t + (1 - t) * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+          }
+        }
       });
     });
   });
@@ -255,8 +316,39 @@ describe("edges", () => {
         const curve = new CubicBezier(p1, p2, p3, p4);
         const q = curve.pointAt(0.5);
         expect(q).to.be.an.instanceOf(Point);
-        expect(q.x).to.be.closeTo(1.5, 1e-8);
-        expect(q.y).to.be.closeTo(1.75, 1e-8);
+        expect(q.x).to.be.closeTo(1.5, EPS);
+        expect(q.y).to.be.closeTo(1.75, EPS);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#splitAt}
+     */
+    describe("#splitAt(t)", () => {
+      it("should return two split curves", () => {
+        const p1 = new Point(1, 1);
+        const p2 = new Point(1, 2);
+        const p3 = new Point(2, 2);
+        const p4 = new Point(2, 1);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        for (const t of [0.25, 0.5, 0.75]) {
+          const splits = curve.splitAt(t);
+          expect(splits).to.be.an("array").that.has.length(2);
+          for (const u of [0.25, 0.5, 0.75]) {
+            {
+              const q1 = splits[0].pointAt(u);
+              const q2 = curve.pointAt(t * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+            {
+              const q1 = splits[1].pointAt(u);
+              const q2 = curve.pointAt(t + (1 - t) * u);
+              expect(q1.x).to.be.closeTo(q2.x, EPS);
+              expect(q1.y).to.be.closeTo(q2.y, EPS);
+            }
+          }
+        }
       });
     });
   });
