@@ -3,6 +3,8 @@ import { expect } from "chai";
 import { Point } from "../lib/point.js";
 
 describe("point", () => {
+  const EPS = 1e-8;
+
   /**
    * @test {Point}
    */
@@ -174,6 +176,31 @@ describe("point", () => {
         expect(r).to.be.an.instanceOf(Point);
         expect(r.x).to.equal(-2);
         expect(r.y).to.equal(-2);
+      });
+    });
+
+    /**
+     * @test {Point#rotate}
+     */
+    describe("#rotate(angle, origin = new Point(0, 0))", () => {
+      context("when `origin` is specified", () => {
+        it("should rotate the point around the specified origin", () => {
+          const p = new Point(2, 3);
+          const q = p.rotate(Math.PI / 2, new Point(1, 1));
+          expect(q).to.be.an.instanceOf(Point);
+          expect(q.x).to.be.closeTo(-1, EPS);
+          expect(q.y).to.be.closeTo(2, EPS);
+        });
+      });
+
+      context("when `origin` is not specified", () => {
+        it("should rotate the point around (0, 0)", () => {
+          const p = new Point(2, 3);
+          const q = p.rotate(Math.PI / 2);
+          expect(q).to.be.an.instanceOf(Point);
+          expect(q.x).to.be.closeTo(-3, EPS);
+          expect(q.y).to.be.closeTo(2, EPS);
+        });
       });
     });
   });
