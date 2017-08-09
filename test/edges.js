@@ -55,6 +55,28 @@ describe("edges", () => {
     });
 
     /**
+     * @test {Line#clone}
+     */
+    describe("#clone()", () => {
+      it("should create a copy of the line segment", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        const copy = line.clone();
+        expect(copy).to.be.an.instanceOf(Line);
+        expect(copy).not.to.equal(line);
+        expect(copy.start).to.be.an.instanceOf(Point);
+        expect(copy.start).not.to.equal(line.start);
+        expect(copy.start.x).to.equal(line.start.x);
+        expect(copy.start.y).to.equal(line.start.y);
+        expect(copy.end).to.be.an.instanceOf(Point);
+        expect(copy.end).not.to.equal(line.end);
+        expect(copy.end.x).to.equal(line.end.x);
+        expect(copy.end.y).to.equal(line.end.y);
+      });
+    });
+
+    /**
      * @test {Line#pointAt}
      */
     describe("#pointAt(t)", () => {
@@ -167,6 +189,33 @@ describe("edges", () => {
         const p4 = new Point(6, 7);
         curve.end = p4;
         expect(curve.end).to.equal(p4);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#clone}
+     */
+    describe("#clone()", () => {
+      it("should create a copy of the curve", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        const copy = curve.clone();
+        expect(copy).to.be.an.instanceOf(QuadraticBezier);
+        expect(copy).not.to.equal(curve);
+        expect(copy.start).to.be.an.instanceOf(Point);
+        expect(copy.start).not.to.equal(curve.start);
+        expect(copy.start.x).to.equal(curve.start.x);
+        expect(copy.start.y).to.equal(curve.start.y);
+        expect(copy.control).to.be.an.instanceOf(Point);
+        expect(copy.control).not.to.equal(curve.control);
+        expect(copy.control.x).to.equal(curve.control.x);
+        expect(copy.control.y).to.equal(curve.control.y);
+        expect(copy.end).to.be.an.instanceOf(Point);
+        expect(copy.end).not.to.equal(curve.end);
+        expect(copy.end.x).to.equal(curve.end.x);
+        expect(copy.end.y).to.equal(curve.end.y);
       });
     });
 
@@ -307,6 +356,38 @@ describe("edges", () => {
         const p5 = new Point(8, 9);
         curve.end = p5;
         expect(curve.end).to.equal(p5);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#clone}
+     */
+    describe("#clone()", () => {
+      it("should create a copy of the curve", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const p4 = new Point(6, 7);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        const copy = curve.clone();
+        expect(copy).to.be.an.instanceOf(CubicBezier);
+        expect(copy).not.to.equal(curve);
+        expect(copy.start).to.be.an.instanceOf(Point);
+        expect(copy.start).not.to.equal(curve.start);
+        expect(copy.start.x).to.equal(curve.start.x);
+        expect(copy.start.y).to.equal(curve.start.y);
+        expect(copy.control1).to.be.an.instanceOf(Point);
+        expect(copy.control1).not.to.equal(curve.control1);
+        expect(copy.control1.x).to.equal(curve.control1.x);
+        expect(copy.control1.y).to.equal(curve.control1.y);
+        expect(copy.control2).to.be.an.instanceOf(Point);
+        expect(copy.control2).not.to.equal(curve.control2);
+        expect(copy.control2.x).to.equal(curve.control2.x);
+        expect(copy.control2.y).to.equal(curve.control2.y);
+        expect(copy.end).to.be.an.instanceOf(Point);
+        expect(copy.end).not.to.equal(curve.end);
+        expect(copy.end.x).to.equal(curve.end.x);
+        expect(copy.end.y).to.equal(curve.end.y);
       });
     });
 
