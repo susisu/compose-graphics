@@ -77,6 +77,62 @@ describe("edges", () => {
     });
 
     /**
+     * @test {Line#translate}
+     */
+    describe("#translate(dist)", () => {
+      it("should return a translated line segment by the distance `dist`", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        const translated = line.translate(new Point(4, 5));
+        expect(translated).to.be.an.instanceOf(Line);
+        expect(translated.start).to.be.an.instanceOf(Point);
+        expect(translated.start.x).to.equal(4);
+        expect(translated.start.y).to.equal(6);
+        expect(translated.end).to.be.an.instanceOf(Point);
+        expect(translated.end.x).to.equal(6);
+        expect(translated.end.y).to.equal(8);
+      });
+    });
+
+    /**
+     * @test {Line#rotate}
+     */
+    describe("#rotate(angle, origin = new Point(0, 0))", () => {
+      context("when `origin` is specified", () => {
+        it("should return a line segment rotated around the specified origin", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const line = new Line(p1, p2);
+          const rotated = line.rotate(Math.PI / 2, new Point(1, 1));
+          expect(rotated).to.be.an.instanceOf(Line);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-1, EPS);
+          expect(rotated.end.y).to.be.closeTo(2, EPS);
+        });
+      });
+
+      context("when `origin` is not specified", () => {
+        it("should return a line segment rotated around (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const line = new Line(p1, p2);
+          const rotated = line.rotate(Math.PI / 2);
+          expect(rotated).to.be.an.instanceOf(Line);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(-1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-3, EPS);
+          expect(rotated.end.y).to.be.closeTo(2, EPS);
+        });
+      });
+    });
+
+    /**
      * @test {Line#pointAt}
      */
     describe("#pointAt(t)", () => {
@@ -216,6 +272,74 @@ describe("edges", () => {
         expect(copy.end).not.to.equal(curve.end);
         expect(copy.end.x).to.equal(curve.end.x);
         expect(copy.end.y).to.equal(curve.end.y);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#translate}
+     */
+    describe("#translate(dist)", () => {
+      it("should return a translated curve by the distance `dist`", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        const translated = curve.translate(new Point(6, 7));
+        expect(translated).to.be.an.instanceOf(QuadraticBezier);
+        expect(translated.start).to.be.an.instanceOf(Point);
+        expect(translated.start.x).to.equal(6);
+        expect(translated.start.y).to.equal(8);
+        expect(translated.control).to.be.an.instanceOf(Point);
+        expect(translated.control.x).to.equal(8);
+        expect(translated.control.y).to.equal(10);
+        expect(translated.end).to.be.an.instanceOf(Point);
+        expect(translated.end.x).to.equal(10);
+        expect(translated.end.y).to.equal(12);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#rotate}
+     */
+    describe("#rotate(angle, origin = new Point(0, 0))", () => {
+      context("when `origin` is specified", () => {
+        it("should return a curve rotated around the specified origin", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          const rotated = curve.rotate(Math.PI / 2, new Point(1, 1));
+          expect(rotated).to.be.an.instanceOf(QuadraticBezier);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.control).to.be.an.instanceOf(Point);
+          expect(rotated.control.x).to.be.closeTo(-1, EPS);
+          expect(rotated.control.y).to.be.closeTo(2, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-3, EPS);
+          expect(rotated.end.y).to.be.closeTo(4, EPS);
+        });
+      });
+
+      context("when `origin` is not specified", () => {
+        it("should return a curve rotated around (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          const rotated = curve.rotate(Math.PI / 2);
+          expect(rotated).to.be.an.instanceOf(QuadraticBezier);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(-1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.control).to.be.an.instanceOf(Point);
+          expect(rotated.control.x).to.be.closeTo(-3, EPS);
+          expect(rotated.control.y).to.be.closeTo(2, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-5, EPS);
+          expect(rotated.end.y).to.be.closeTo(4, EPS);
+        });
       });
     });
 
@@ -388,6 +512,86 @@ describe("edges", () => {
         expect(copy.end).not.to.equal(curve.end);
         expect(copy.end.x).to.equal(curve.end.x);
         expect(copy.end.y).to.equal(curve.end.y);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#translate}
+     */
+    describe("#translate(dist)", () => {
+      it("should return a translated curve by the distance `dist`", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const p4 = new Point(6, 7);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        const translated = curve.translate(new Point(8, 9));
+        expect(translated).to.be.an.instanceOf(CubicBezier);
+        expect(translated.start).to.be.an.instanceOf(Point);
+        expect(translated.start.x).to.equal(8);
+        expect(translated.start.y).to.equal(10);
+        expect(translated.control1).to.be.an.instanceOf(Point);
+        expect(translated.control1.x).to.equal(10);
+        expect(translated.control1.y).to.equal(12);
+        expect(translated.control2).to.be.an.instanceOf(Point);
+        expect(translated.control2.x).to.equal(12);
+        expect(translated.control2.y).to.equal(14);
+        expect(translated.end).to.be.an.instanceOf(Point);
+        expect(translated.end.x).to.equal(14);
+        expect(translated.end.y).to.equal(16);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#rotate}
+     */
+    describe("#rotate(angle, origin = new Point(0, 0))", () => {
+      context("when `origin` is specified", () => {
+        it("should return a curve rotated around the specified origin", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const p4 = new Point(6, 7);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          const rotated = curve.rotate(Math.PI / 2, new Point(1, 1));
+          expect(rotated).to.be.an.instanceOf(CubicBezier);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.control1).to.be.an.instanceOf(Point);
+          expect(rotated.control1.x).to.be.closeTo(-1, EPS);
+          expect(rotated.control1.y).to.be.closeTo(2, EPS);
+          expect(rotated.control2).to.be.an.instanceOf(Point);
+          expect(rotated.control2.x).to.be.closeTo(-3, EPS);
+          expect(rotated.control2.y).to.be.closeTo(4, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-5, EPS);
+          expect(rotated.end.y).to.be.closeTo(6, EPS);
+        });
+      });
+
+      context("when `origin` is not specified", () => {
+        it("should return a curve rotated around (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const p4 = new Point(6, 7);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          const rotated = curve.rotate(Math.PI / 2);
+          expect(rotated).to.be.an.instanceOf(CubicBezier);
+          expect(rotated.start).to.be.an.instanceOf(Point);
+          expect(rotated.start.x).to.be.closeTo(-1, EPS);
+          expect(rotated.start.y).to.be.closeTo(0, EPS);
+          expect(rotated.control1).to.be.an.instanceOf(Point);
+          expect(rotated.control1.x).to.be.closeTo(-3, EPS);
+          expect(rotated.control1.y).to.be.closeTo(2, EPS);
+          expect(rotated.control2).to.be.an.instanceOf(Point);
+          expect(rotated.control2.x).to.be.closeTo(-5, EPS);
+          expect(rotated.control2.y).to.be.closeTo(4, EPS);
+          expect(rotated.end).to.be.an.instanceOf(Point);
+          expect(rotated.end.x).to.be.closeTo(-7, EPS);
+          expect(rotated.end.y).to.be.closeTo(6, EPS);
+        });
       });
     });
 
