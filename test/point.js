@@ -126,6 +126,16 @@ describe("point", () => {
     });
 
     /**
+     * @test {Point#length}
+     */
+    describe("#length()", () => {
+      it("should calculate the length of the point vector", () => {
+        const p = new Point(3, 4);
+        expect(p.length()).to.be.closeTo(5, EPS);
+      });
+    });
+
+    /**
      * @test {Point#equals}
      */
     describe("#equals(point)", () => {
