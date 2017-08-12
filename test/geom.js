@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { Point } from "../lib/point.js";
+import { Point } from "../lib/geom.js";
 
-describe("point", () => {
+describe("geom", () => {
   const EPS = 1e-8;
 
   /**

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Point } from "../lib/point.js";
+import { Point } from "../lib/geom.js";
 import { Line, QuadraticBezier, CubicBezier } from "../lib/edges.js";
 
 describe("edges", () => {
