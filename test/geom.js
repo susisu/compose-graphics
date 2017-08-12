@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Point } from "../lib/geom.js";
+import { Point, Rectangle } from "../lib/geom.js";
 
 describe("geom", () => {
   const EPS = 1e-8;
@@ -211,6 +211,73 @@ describe("geom", () => {
           expect(q.x).to.be.closeTo(-3, EPS);
           expect(q.y).to.be.closeTo(2, EPS);
         });
+      });
+    });
+  });
+
+  /**
+   * @test {Rectangle}
+   */
+  describe("Rectangle", () => {
+    /**
+     * @test {Rectangle.constructor}
+     */
+    describe("constructor(x, y, width, height)", () => {
+      it("should create a new Rectangle object", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect).to.be.an.instanceOf(Rectangle);
+        expect(rect.x).to.equal(0);
+        expect(rect.y).to.equal(1);
+        expect(rect.width).to.equal(2);
+        expect(rect.height).to.equal(3);
+      });
+    });
+
+    /**
+     * @test {Rectangle#x}
+     */
+    describe("#x", () => {
+      it("should be readable and writable", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.x).to.equal(0);
+        rect.x = 4;
+        expect(rect.x).to.equal(4);
+      });
+    });
+
+    /**
+     * @test {Rectangle#y}
+     */
+    describe("#y", () => {
+      it("should be readable and writable", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.y).to.equal(1);
+        rect.y = 4;
+        expect(rect.y).to.equal(4);
+      });
+    });
+
+    /**
+     * @test {Rectangle#width}
+     */
+    describe("#width", () => {
+      it("should be readable and writable", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.width).to.equal(2);
+        rect.width = 4;
+        expect(rect.width).to.equal(4);
+      });
+    });
+
+    /**
+     * @test {Rectangle#height}
+     */
+    describe("#height", () => {
+      it("should be readable and writable", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.height).to.equal(3);
+        rect.height = 4;
+        expect(rect.height).to.equal(4);
       });
     });
   });
