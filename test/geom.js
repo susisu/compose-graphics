@@ -296,5 +296,45 @@ describe("geom", () => {
         expect(copy.height).to.equal(rect.height);
       });
     });
+
+    /**
+     * @test {Rectangle#left}
+     */
+    describe("#left()", () => {
+      it("should return the X-coordinate of the left side of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.left()).to.equal(0);
+      });
+    });
+
+    /**
+     * @test {Rectangle#right}
+     */
+    describe("#right()", () => {
+      it("should return the X-coordinate of the right side of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.right()).to.equal(2);
+      });
+    });
+
+    /**
+     * @test {Rectangle#top}
+     */
+    describe("#top()", () => {
+      it("should return the Y-coordinate of the top of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.top()).to.equal(1);
+      });
+    });
+
+    /**
+     * @test {Rectangle#bottom}
+     */
+    describe("#bottom()", () => {
+      it("should return the Y-coordinate of the bottom of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.bottom()).to.equal(4);
+      });
+    });
   });
 });
