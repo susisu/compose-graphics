@@ -280,5 +280,21 @@ describe("geom", () => {
         expect(rect.height).to.equal(4);
       });
     });
+
+    /**
+     * @test {Rectangle#clone}
+     */
+    describe("#clone()", () => {
+      it("should return a copy of the rectangle object", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        const copy = rect.clone();
+        expect(copy).to.be.an.instanceOf(Rectangle);
+        expect(copy).not.to.equal(rect);
+        expect(copy.x).to.equal(rect.x);
+        expect(copy.y).to.equal(rect.y);
+        expect(copy.width).to.equal(rect.width);
+        expect(copy.height).to.equal(rect.height);
+      });
+    });
   });
 });
