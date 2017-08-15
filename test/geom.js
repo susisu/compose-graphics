@@ -338,6 +338,20 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Rectangle#contains}
+     */
+    describe("#contains(point)", () => {
+      it("should return `true` if `point` is contained by the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        expect(rect.contains(new Point(0, 0))).to.be.false;
+        expect(rect.contains(new Point(1, 1))).to.be.false;
+        expect(rect.contains(new Point(1, 2))).to.be.true;
+        expect(rect.contains(new Point(1, 4))).to.be.false;
+        expect(rect.contains(new Point(1, 5))).to.be.false;
+      });
+    });
+
+    /**
      * @test {Rectangle#overlaps}
      */
     describe("#overlaps(rect)", () => {
