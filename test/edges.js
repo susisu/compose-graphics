@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Point } from "../lib/geom.js";
+import { Point, Rectangle } from "../lib/geom.js";
 import { Line, QuadraticBezier, CubicBezier } from "../lib/edges.js";
 
 describe("edges", () => {
@@ -176,6 +176,23 @@ describe("edges", () => {
             }
           }
         }
+      });
+    });
+
+    /**
+     * @test {Line#boundingBox}
+     */
+    describe("#boundingBox()", () => {
+      it("should return a rectangle object representing the bounding box", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        const bb = line.boundingBox();
+        expect(bb).to.be.an.instanceOf(Rectangle);
+        expect(bb.x).to.be.closeTo(0, EPS);
+        expect(bb.y).to.be.closeTo(1, EPS);
+        expect(bb.width).to.be.closeTo(2, EPS);
+        expect(bb.height).to.be.closeTo(2, EPS);
       });
     });
   });
@@ -389,6 +406,20 @@ describe("edges", () => {
             }
           }
         }
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#boundingBox}
+     */
+    describe("#boundingBox()", () => {
+      it("should return a rectangle object representing the bounding box", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        const bb = curve.boundingBox();
+        expect(bb).to.be.an.instanceOf(Rectangle);
       });
     });
   });
@@ -643,6 +674,21 @@ describe("edges", () => {
             }
           }
         }
+      });
+    });
+
+    /**
+     * @test {CubicBezier#boundingBox}
+     */
+    describe("#boundingBox()", () => {
+      it("should return a rectangle object representing the bounding box", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const p4 = new Point(6, 7);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        const bb = curve.boundingBox();
+        expect(bb).to.be.an.instanceOf(Rectangle);
       });
     });
   });
