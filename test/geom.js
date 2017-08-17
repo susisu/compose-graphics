@@ -338,6 +338,18 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Rectangle#isPoint}
+     */
+    describe("#isPoint()", () => {
+      it("should return true if both the width and height are 0", () => {
+        expect(new Rectangle(0, 1, 2, 3).isPoint()).to.be.false;
+        expect(new Rectangle(0, 1, 0, 3).isPoint()).to.be.false;
+        expect(new Rectangle(0, 1, 2, 0).isPoint()).to.be.false;
+        expect(new Rectangle(0, 1, 0, 0).isPoint()).to.be.true;
+      });
+    });
+
+    /**
      * @test {Rectangle#contains}
      */
     describe("#contains(point)", () => {
