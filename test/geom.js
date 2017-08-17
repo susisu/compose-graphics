@@ -338,6 +338,58 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Rectangle#topLeft}
+     */
+    describe("#topLeft()", () => {
+      it("should return a point object at the top left of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        const p = rect.topLeft();
+        expect(p).to.be.an.instanceOf(Point);
+        expect(p.x).to.equal(0);
+        expect(p.y).to.equal(1);
+      });
+    });
+
+    /**
+     * @test {Rectangle#bottomLeft}
+     */
+    describe("#bottomLeft()", () => {
+      it("should return a point object at the bottom left of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        const p = rect.bottomLeft();
+        expect(p).to.be.an.instanceOf(Point);
+        expect(p.x).to.equal(0);
+        expect(p.y).to.equal(4);
+      });
+    });
+
+    /**
+     * @test {Rectangle#topRight}
+     */
+    describe("#topRight()", () => {
+      it("should return a point object at the top right of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        const p = rect.topRight();
+        expect(p).to.be.an.instanceOf(Point);
+        expect(p.x).to.equal(2);
+        expect(p.y).to.equal(1);
+      });
+    });
+
+    /**
+     * @test {Rectangle#bottomRight}
+     */
+    describe("#bottomRight()", () => {
+      it("should return a point object at the bottom right of the rectangle", () => {
+        const rect = new Rectangle(0, 1, 2, 3);
+        const p = rect.bottomRight();
+        expect(p).to.be.an.instanceOf(Point);
+        expect(p.x).to.equal(2);
+        expect(p.y).to.equal(4);
+      });
+    });
+
+    /**
      * @test {Rectangle#isPoint}
      */
     describe("#isPoint()", () => {
