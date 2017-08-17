@@ -406,12 +406,18 @@ describe("geom", () => {
      */
     describe("#contains(point)", () => {
       it("should return `true` if `point` is contained by the rectangle", () => {
-        const rect = new Rectangle(0, 1, 2, 3);
-        expect(rect.contains(new Point(0, 0))).to.be.false;
-        expect(rect.contains(new Point(1, 1))).to.be.false;
-        expect(rect.contains(new Point(1, 2))).to.be.true;
-        expect(rect.contains(new Point(1, 4))).to.be.false;
-        expect(rect.contains(new Point(1, 5))).to.be.false;
+        const rect = new Rectangle(1, 1, 3, 3);
+        expect(rect.contains(new Point(2, 0))).to.be.false;
+        expect(rect.contains(new Point(2, 1))).to.be.false;
+        expect(rect.contains(new Point(2, 2))).to.be.true;
+        expect(rect.contains(new Point(2, 4))).to.be.false;
+        expect(rect.contains(new Point(2, 5))).to.be.false;
+
+        expect(rect.contains(new Point(0, 2))).to.be.false;
+        expect(rect.contains(new Point(1, 2))).to.be.false;
+        expect(rect.contains(new Point(2, 2))).to.be.true;
+        expect(rect.contains(new Point(4, 2))).to.be.false;
+        expect(rect.contains(new Point(5, 2))).to.be.false;
       });
     });
 
