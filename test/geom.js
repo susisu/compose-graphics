@@ -416,6 +416,31 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Rectangle#hasOnEdge}
+     */
+    describe("#hasOnEdge(point)", () => {
+      it("should return `true` if `point` is on the edge of the rectangle", () => {
+        const rect = new Rectangle(1, 1, 3, 3);
+        expect(rect.hasOnEdge(new Point(2, 0))).to.be.false;
+        expect(rect.hasOnEdge(new Point(2, 1))).to.be.true;
+        expect(rect.hasOnEdge(new Point(2, 2))).to.be.false;
+        expect(rect.hasOnEdge(new Point(2, 4))).to.be.true;
+        expect(rect.hasOnEdge(new Point(2, 5))).to.be.false;
+
+        expect(rect.hasOnEdge(new Point(0, 2))).to.be.false;
+        expect(rect.hasOnEdge(new Point(1, 2))).to.be.true;
+        expect(rect.hasOnEdge(new Point(2, 2))).to.be.false;
+        expect(rect.hasOnEdge(new Point(4, 2))).to.be.true;
+        expect(rect.hasOnEdge(new Point(5, 2))).to.be.false;
+
+        expect(rect.hasOnEdge(new Point(1, 1))).to.be.true;
+        expect(rect.hasOnEdge(new Point(1, 4))).to.be.true;
+        expect(rect.hasOnEdge(new Point(4, 1))).to.be.true;
+        expect(rect.hasOnEdge(new Point(4, 4))).to.be.true;
+      });
+    });
+
+    /**
      * @test {Rectangle#overlaps}
      */
     describe("#overlaps(rect)", () => {
