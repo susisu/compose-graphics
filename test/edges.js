@@ -55,6 +55,18 @@ describe("edges", () => {
     });
 
     /**
+     * @test {Line#degree}
+     */
+    describe("#degree()", () => {
+      it("should return 1", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        expect(line.degree()).to.equal(1);
+      });
+    });
+
+    /**
      * @test {Line#clone}
      */
     describe("#clone()", () => {
@@ -280,6 +292,19 @@ describe("edges", () => {
         const p4 = new Point(6, 7);
         curve.end = p4;
         expect(curve.end).to.equal(p4);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#degree}
+     */
+    describe("#degree()", () => {
+      it("should return 2", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        expect(curve.degree()).to.equal(2);
       });
     });
 
@@ -548,6 +573,20 @@ describe("edges", () => {
         const p5 = new Point(8, 9);
         curve.end = p5;
         expect(curve.end).to.equal(p5);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#degree}
+     */
+    describe("#degree()", () => {
+      it("should return 3", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const p4 = new Point(6, 7);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        expect(curve.degree()).to.equal(3);
       });
     });
 
