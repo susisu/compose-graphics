@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import { Point, Rectangle } from "../lib/geom.js";
-import { Line, QuadraticBezier, CubicBezier } from "../lib/edges.js";
+import { Line, QuadraticBezier, CubicBezier, intersections } from "../lib/edges.js";
 
 describe("edges", () => {
   const EPS = 1e-8;
@@ -785,6 +785,249 @@ describe("edges", () => {
         const curve = new CubicBezier(p1, p2, p3, p4);
         const bb = curve.boundingBox();
         expect(bb).to.be.an.instanceOf(Rectangle);
+      });
+    });
+  });
+
+  /**
+   * @test {intersections}
+   */
+  describe("intersections(edge1, edge2, iteration)", () => {
+    const ITERATIONS = 20;
+
+    context("line-line", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+          const edge2 = new Line(new Point(0, 2), new Point(1, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+          const edge2 = new Line(new Point(0, 2), new Point(2, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+          const edge2 = new Line(new Point(0, 2), new Point(3, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new Line(new Point(0, 0), new Point(2, 2));
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
+      });
+    });
+
+    context("line-quadratic", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new Line(new Point(1, 0), new Point(1, 2));
+          const edge2 = new QuadraticBezier(new Point(0, 0), new Point(1, 1), new Point(0, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new Line(new Point(1, 0), new Point(1, 2));
+          const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new Line(new Point(1, 0), new Point(1, 2));
+          const edge2 = new QuadraticBezier(new Point(0, 0), new Point(3, 1), new Point(0, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(2);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 2), new Point(1, 1));
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
+      });
+    });
+
+    context("line-cubic", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new Line(new Point(2, 0), new Point(2, 3));
+          const edge2 = new CubicBezier(
+            new Point(0, 0), new Point(2, 1), new Point(0, 2), new Point(1, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new Line(new Point(2, 0), new Point(2, 3));
+          const edge2 = new CubicBezier(
+            new Point(0, 0), new Point(4, 1), new Point(0, 2), new Point(4, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new Line(new Point(2, 0), new Point(2, 3));
+          const edge2 = new CubicBezier(
+            new Point(0, 0), new Point(8, 1), new Point(-4, 2), new Point(4, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(3);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new CubicBezier(
+          new Point(0, 0), new Point(2, 2), new Point(1, 1), new Point(3, 3)
+        );
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
+      });
+    });
+
+    context("quadratic-quadratic", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(1, 1), new Point(0, 2));
+          const edge2 = new QuadraticBezier(new Point(2, 0), new Point(1, 1), new Point(2, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+          const edge2 = new QuadraticBezier(new Point(2, 0), new Point(0, 1), new Point(2, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(3, 1), new Point(0, 2));
+          const edge2 = new QuadraticBezier(new Point(2, 0), new Point(-1, 1), new Point(2, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(2);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 1), new Point(6, 2), new Point(0, 3));
+          const edge2 = new QuadraticBezier(new Point(1, 0), new Point(2, 6), new Point(3, 0));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(4);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+        const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
+      });
+    });
+
+    context("quadratic-cubic", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+          const edge2 = new CubicBezier(
+            new Point(2, 0), new Point(1, 1), new Point(3, 2), new Point(2, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+          const edge2 = new CubicBezier(
+            new Point(2, 0), new Point(-2, 1), new Point(3, 2), new Point(2, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(2);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
+          const edge2 = new CubicBezier(
+            new Point(2, 0), new Point(-2, 1), new Point(3, 2), new Point(0, 2)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(3);
+        }
+        {
+          const edge1 = new QuadraticBezier(new Point(0, 1), new Point(8, 2), new Point(0, 3));
+          const edge2 = new CubicBezier(
+            new Point(1, 0), new Point(2, 8), new Point(3, -4), new Point(3, 4)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(6);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new QuadraticBezier(new Point(0, 1), new Point(2, 3), new Point(4, 5));
+        const edge2 = new CubicBezier(
+          new Point(0, 1), new Point(4 / 3, 7 / 3), new Point(8 / 3, 11 / 3), new Point(4, 5)
+        );
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
+      });
+    });
+
+    context("cubic-cubic", () => {
+      it("should compute intersections of two edges", () => {
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+          );
+          const edge2 = new CubicBezier(
+            new Point(2, 0), new Point(1, 1), new Point(1, 2), new Point(2, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(4, 1), new Point(0, 2), new Point(4, 3)
+          );
+          const edge2 = new CubicBezier(
+            new Point(2, 0), new Point(-2, 1), new Point(2, 2), new Point(-2, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(10, 1), new Point(-4, 2), new Point(6, 3)
+          );
+          const edge2 = new CubicBezier(
+            new Point(6, 0), new Point(-4, 1), new Point(10, 2), new Point(0, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(3);
+        }
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(1, 30), new Point(2, -27), new Point(3, 3)
+          );
+          const edge2 = new CubicBezier(
+            new Point(0, 0), new Point(30, 1), new Point(-27, 2), new Point(3, 3)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(9);
+        }
+      });
+
+      it("should return undefined if there are infinitely many intersections", () => {
+        const edge1 = new CubicBezier(
+          new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+        );
+        const edge2 = new CubicBezier(
+          new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+        );
+        const is = intersections(edge1, edge2, ITERATIONS);
+        expect(is).to.be.undefined;
       });
     });
   });
