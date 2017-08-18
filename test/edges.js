@@ -180,6 +180,24 @@ describe("edges", () => {
     });
 
     /**
+     * @test {Line#extremePoints}
+     */
+    describe("#extremePoints()", () => {
+      it("should return an array of objects, each object has information about an extreme point", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        const eps = line.extremePoints();
+        expect(eps).to.be.an("array").that.has.length(2);
+        for (const ep of eps) {
+          expect(ep).to.be.an("object");
+          expect(ep.t).to.be.a("number");
+          expect(ep.point).to.be.an.instanceOf(Point);
+        }
+      });
+    });
+
+    /**
      * @test {Line#boundingBox}
      */
     describe("#boundingBox()", () => {
@@ -405,6 +423,25 @@ describe("edges", () => {
               expect(q1.y).to.be.closeTo(q2.y, EPS);
             }
           }
+        }
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#extremePoints}
+     */
+    describe("#extremePoints()", () => {
+      it("should return an array of objects, each object has information about an extreme point", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const curve = new QuadraticBezier(p1, p2, p3);
+        const eps = curve.extremePoints();
+        expect(eps).to.be.an("array");
+        for (const ep of eps) {
+          expect(ep).to.be.an("object");
+          expect(ep.t).to.be.a("number");
+          expect(ep.point).to.be.an.instanceOf(Point);
         }
       });
     });
@@ -673,6 +710,26 @@ describe("edges", () => {
               expect(q1.y).to.be.closeTo(q2.y, EPS);
             }
           }
+        }
+      });
+    });
+
+    /**
+     * @test {CubicBezier#extremePoints}
+     */
+    describe("#extremePoints()", () => {
+      it("should return an array of objects, each object has information about an extreme point", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const p3 = new Point(4, 5);
+        const p4 = new Point(6, 7);
+        const curve = new CubicBezier(p1, p2, p3, p4);
+        const eps = curve.extremePoints();
+        expect(eps).to.be.an("array");
+        for (const ep of eps) {
+          expect(ep).to.be.an("object");
+          expect(ep.t).to.be.a("number");
+          expect(ep.point).to.be.an.instanceOf(Point);
         }
       });
     });
