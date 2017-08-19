@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import { Point, Rectangle } from "../lib/geom.js";
-import { Line, QuadraticBezier, CubicBezier, intersections } from "../lib/edges.js";
+import { Line, QuadraticBezier, CubicBezier, intersectionsLL, intersections } from "../lib/edges.js";
 
 describe("edges", () => {
   const EPS = 1e-8;
@@ -786,6 +786,45 @@ describe("edges", () => {
         const bb = curve.boundingBox();
         expect(bb).to.be.an.instanceOf(Rectangle);
       });
+    });
+  });
+
+  /**
+   * @test {intersectionsLL}
+   */
+  describe("intersectionsLL(line1, line2)", () => {
+    it("should compute intersections of two line segments", () => {
+      {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new Line(new Point(0, 2), new Point(1, 2));
+        const is = intersectionsLL(edge1, edge2);
+        expect(is).to.be.an("array").that.has.length(0);
+      }
+      {
+        const edge1 = new Line(new Point(0, 0), new Point(1, 1));
+        const edge2 = new Line(new Point(2, 2), new Point(3, 3));
+        const is = intersectionsLL(edge1, edge2);
+        expect(is).to.be.an("array").that.has.length(0);
+      }
+      {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new Line(new Point(0, 2), new Point(2, 2));
+        const is = intersectionsLL(edge1, edge2);
+        expect(is).to.be.an("array").that.has.length(1);
+      }
+      {
+        const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+        const edge2 = new Line(new Point(0, 2), new Point(3, 2));
+        const is = intersectionsLL(edge1, edge2);
+        expect(is).to.be.an("array").that.has.length(1);
+      }
+    });
+
+    it("should return undefined if there are infinitely many intersections", () => {
+      const edge1 = new Line(new Point(0, 0), new Point(3, 3));
+      const edge2 = new Line(new Point(0, 0), new Point(2, 2));
+      const is = intersections(edge1, edge2);
+      expect(is).to.be.undefined;
     });
   });
 
