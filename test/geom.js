@@ -483,5 +483,43 @@ describe("geom", () => {
         expect(rect.overlaps(new Rectangle(3, 3, 2, 2))).to.be.true;
       });
     });
+
+    /**
+     * @test {Rectangle#contacts}
+     */
+    describe("#contacts(rect)", () => {
+      it("should return `true` if the rectangle contacts to another rectangle `rect`", () => {
+        const rect = new Rectangle(2, 2, 4, 4);
+        expect(rect.contacts(new Rectangle(0, 3, 1, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 3, 2, 1))).to.be.true;
+        expect(rect.contacts(new Rectangle(0, 3, 4, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 3, 6, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 3, 7, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(1, 3, 7, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(2, 3, 6, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(4, 3, 4, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(6, 3, 2, 1))).to.be.true;
+        expect(rect.contacts(new Rectangle(7, 3, 1, 1))).to.be.false;
+
+        expect(rect.contacts(new Rectangle(3, 0, 1, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 0, 1, 2))).to.be.true;
+        expect(rect.contacts(new Rectangle(3, 0, 1, 4))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 0, 1, 6))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 0, 1, 7))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 1, 1, 7))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 2, 1, 6))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 4, 1, 4))).to.be.false;
+        expect(rect.contacts(new Rectangle(3, 6, 1, 2))).to.be.true;
+        expect(rect.contacts(new Rectangle(3, 7, 1, 1))).to.be.false;
+
+        expect(rect.contacts(new Rectangle(0, 0, 1, 1))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 0, 2, 2))).to.be.true;
+        expect(rect.contacts(new Rectangle(0, 0, 3, 3))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 0, 6, 6))).to.be.false;
+        expect(rect.contacts(new Rectangle(0, 0, 7, 7))).to.be.false;
+
+        expect(rect.contacts(new Rectangle(3, 3, 2, 2))).to.be.false;
+      });
+    });
   });
 });
