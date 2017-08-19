@@ -849,6 +849,18 @@ describe("edges", () => {
           expect(is).to.be.an("array").that.has.length(0);
         }
         {
+          const edge1 = new Line(new Point(0, 0), new Point(1, 1));
+          const edge2 = new Line(new Point(2, 2), new Point(3, 3));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(0);
+        }
+        {
+          const edge1 = new Line(new Point(0, 0), new Point(1, 1));
+          const edge2 = new Line(new Point(1, 1), new Point(2, 2));
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
           const edge1 = new Line(new Point(0, 0), new Point(3, 3));
           const edge2 = new Line(new Point(0, 2), new Point(2, 2));
           const is = intersections(edge1, edge2, ITERATIONS);
