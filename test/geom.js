@@ -190,6 +190,17 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Point#innerProd}
+     */
+    describe("#innerProd(point)", () => {
+      it("should compute the inner product with another point vector", () => {
+        const p = new Point(1, 2);
+        const q = new Point(3, 4);
+        expect(p.innerProd(q)).to.equal(11);
+      });
+    });
+
+    /**
      * @test {Point#rotate}
      */
     describe("#rotate(angle, origin = new Point(0, 0))", () => {
