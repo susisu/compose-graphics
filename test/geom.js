@@ -201,6 +201,17 @@ describe("geom", () => {
     });
 
     /**
+     * @test {Point#outerProd}
+     */
+    describe("#outerProd(point)", () => {
+      it("should compute the Z-component of the outer product with another point vector", () => {
+        const p = new Point(1, 2);
+        const q = new Point(3, 4);
+        expect(p.outerProd(q)).to.equal(-2);
+      });
+    });
+
+    /**
      * @test {Point#rotate}
      */
     describe("#rotate(angle, origin = new Point(0, 0))", () => {
