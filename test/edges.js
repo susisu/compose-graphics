@@ -225,6 +225,18 @@ describe("edges", () => {
         expect(bb.height).to.be.closeTo(2, EPS);
       });
     });
+
+    /**
+     * @test {Line#deviationFromLine}
+     */
+    describe("#deviationFromLine()", () => {
+      it("should return 0", () => {
+        const p1 = new Point(0, 1);
+        const p2 = new Point(2, 3);
+        const line = new Line(p1, p2);
+        expect(line.deviationFromLine()).to.equal(0);
+      });
+    });
   });
 
   /**
@@ -482,6 +494,28 @@ describe("edges", () => {
         const curve = new QuadraticBezier(p1, p2, p3);
         const bb = curve.boundingBox();
         expect(bb).to.be.an.instanceOf(Rectangle);
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#deviationFromLine}
+     */
+    describe("#deviationFromLine()", () => {
+      it("should return the degree of deviation from line", () => {
+        {
+          const p1 = new Point(0, 0);
+          const p2 = new Point(2, 0);
+          const p3 = new Point(2, 2);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          expect(curve.deviationFromLine()).to.be.closeTo(0.25, EPS);
+        }
+        {
+          const p1 = new Point(0, 0);
+          const p2 = new Point(3, 2);
+          const p3 = new Point(2, 2);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          expect(curve.deviationFromLine()).to.equal(Infinity);
+        }
       });
     });
   });
@@ -785,6 +819,38 @@ describe("edges", () => {
         const curve = new CubicBezier(p1, p2, p3, p4);
         const bb = curve.boundingBox();
         expect(bb).to.be.an.instanceOf(Rectangle);
+      });
+    });
+
+    /**
+     * @test {CubicBezier#deviationFromLine}
+     */
+    describe("#deviationFromLine()", () => {
+      it("should return the degree of deviation from line", () => {
+        {
+          const p1 = new Point(0, 0);
+          const p2 = new Point(2, 0);
+          const p3 = new Point(2, 2);
+          const p4 = new Point(0, 2);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          expect(curve.deviationFromLine()).to.be.closeTo(3 / 4, EPS);
+        }
+        {
+          const p1 = new Point(1, 0);
+          const p2 = new Point(0, 0);
+          const p3 = new Point(2, 2);
+          const p4 = new Point(1, 2);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          expect(curve.deviationFromLine()).not.to.equal(Infinity);
+        }
+        {
+          const p1 = new Point(0, 0);
+          const p2 = new Point(2, 0);
+          const p3 = new Point(3, 2);
+          const p4 = new Point(2, 2);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          expect(curve.deviationFromLine()).to.equal(Infinity);
+        }
       });
     });
   });
