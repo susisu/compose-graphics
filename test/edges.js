@@ -1122,6 +1122,16 @@ describe("edges", () => {
         }
         {
           const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1)
+          );
+          const edge2 = new CubicBezier(
+            new Point(0, 0.1), new Point(1, 0), new Point(0, 1), new Point(1, 1)
+          );
+          const is = intersections(edge1, edge2, ITERATIONS);
+          expect(is).to.be.an("array").that.has.length(1);
+        }
+        {
+          const edge1 = new CubicBezier(
             new Point(0, 0), new Point(10, 1), new Point(-4, 2), new Point(6, 3)
           );
           const edge2 = new CubicBezier(
