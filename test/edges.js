@@ -903,7 +903,7 @@ describe("edges", () => {
   /**
    * @test {intersections}
    */
-  describe.skip("intersections(edge1, edge2, depth, maxIteration = -1)", () => {
+  describe("intersections(edge1, edge2, depth, maxIteration = -1)", () => {
     const DEPTH = 20;
 
     context("line-line", () => {
