@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import { Point, Rectangle } from "../lib/geom.js";
-import { Line, QuadraticBezier, CubicBezier, intersectionsLL, intersections } from "../lib/edges.js";
+import { Line, QuadraticBezier, CubicBezier, intersectionsLL, intersections, selfIntersections } from "../lib/edges.js";
 
 describe("edges", () => {
   const EPS = 1e-8;
@@ -1160,6 +1160,63 @@ describe("edges", () => {
           new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
         );
         const is = intersections(edge1, edge2, DEPTH);
+        expect(is).to.be.undefined;
+      });
+    });
+  });
+
+  /**
+   * @test {selfIntersections}
+   */
+  describe("selfIntersections(edge, depth, maxIteration = -1)", () => {
+    const DEPTH = 20;
+
+    context("line", () => {
+      it("should return an empty array since there cannot be any intersection", () => {
+        const edge = new Line(new Point(0, 0), new Point(1, 1));
+        const is = selfIntersections(edge, DEPTH);
+        expect(is).to.be.an("array").of.length(0);
+      });
+    });
+
+    context("quadratic", () => {
+      it("should return an empty array since there cannot be any intersection", () => {
+        const edge = new QuadraticBezier(new Point(0, 0), new Point(1, 0), new Point(1, 1));
+        const is = selfIntersections(edge, DEPTH);
+        expect(is).to.be.an("array").of.length(0);
+      });
+    });
+
+    context("cubic", () => {
+      it("should compute self-intersection points", () => {
+        {
+          const edge = new CubicBezier(
+            new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1)
+          );
+          const is = selfIntersections(edge, DEPTH);
+          expect(is).to.be.an("array").of.length(0);
+        }
+        {
+          const edge = new CubicBezier(
+            new Point(0, 0), new Point(1, 1), new Point(0, 0), new Point(1, 1)
+          );
+          const is = selfIntersections(edge, DEPTH);
+          expect(is).to.be.an("array").of.length(0);
+        }
+        {
+          const edge = new CubicBezier(
+            new Point(0, 0), new Point(8, 0), new Point(1, -7), new Point(1, 1)
+          );
+          const is = selfIntersections(edge, DEPTH);
+          expect(is).to.be.an("array").of.length(1);
+        }
+      });
+
+      it("should return undefined is there are infinitely many self-intersection points", () => {
+        const edge = new CubicBezier(
+          new Point(0, 0), new Point(2, 2), new Point(-1, -1), new Point(1, 1)
+        );
+        const is = selfIntersections(edge, DEPTH);
         expect(is).to.be.undefined;
       });
     });
