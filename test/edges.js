@@ -110,9 +110,9 @@ describe("edges", () => {
     /**
      * @test {Line#rotate}
      */
-    describe("#rotate(angle, origin = new Point(0, 0))", () => {
-      context("when `origin` is specified", () => {
-        it("should return a line segment rotated around the specified origin", () => {
+    describe("#rotate(angle, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a line segment rotated around the specified center", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const line = new Line(p1, p2);
@@ -127,8 +127,8 @@ describe("edges", () => {
         });
       });
 
-      context("when `origin` is not specified", () => {
-        it("should return a line segment rotated around (0, 0)", () => {
+      context("when `center` is not specified", () => {
+        it("should return a line segment rotated around the origin (0, 0)", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const line = new Line(p1, p2);
@@ -373,9 +373,9 @@ describe("edges", () => {
     /**
      * @test {QuadraticBezier#rotate}
      */
-    describe("#rotate(angle, origin = new Point(0, 0))", () => {
-      context("when `origin` is specified", () => {
-        it("should return a curve rotated around the specified origin", () => {
+    describe("#rotate(angle, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a curve rotated around the specified center", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const p3 = new Point(4, 5);
@@ -394,8 +394,8 @@ describe("edges", () => {
         });
       });
 
-      context("when `origin` is not specified", () => {
-        it("should return a curve rotated around (0, 0)", () => {
+      context("when `center` is not specified", () => {
+        it("should return a curve rotated around the origin (0, 0)", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const p3 = new Point(4, 5);
@@ -686,9 +686,9 @@ describe("edges", () => {
     /**
      * @test {CubicBezier#rotate}
      */
-    describe("#rotate(angle, origin = new Point(0, 0))", () => {
-      context("when `origin` is specified", () => {
-        it("should return a curve rotated around the specified origin", () => {
+    describe("#rotate(angle, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a curve rotated around the specified center", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const p3 = new Point(4, 5);
@@ -711,8 +711,8 @@ describe("edges", () => {
         });
       });
 
-      context("when `origin` is not specified", () => {
-        it("should return a curve rotated around (0, 0)", () => {
+      context("when `center` is not specified", () => {
+        it("should return a curve rotated around the origin (0, 0)", () => {
           const p1 = new Point(0, 1);
           const p2 = new Point(2, 3);
           const p3 = new Point(4, 5);

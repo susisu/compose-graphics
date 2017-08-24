@@ -214,9 +214,9 @@ describe("geom", () => {
     /**
      * @test {Point#rotate}
      */
-    describe("#rotate(angle, origin = new Point(0, 0))", () => {
-      context("when `origin` is specified", () => {
-        it("should rotate the point around the specified origin", () => {
+    describe("#rotate(angle, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should rotate the point around the specified center", () => {
           const p = new Point(2, 3);
           const q = p.rotate(Math.PI / 2, new Point(1, 1));
           expect(q).to.be.an.instanceOf(Point);
@@ -225,8 +225,8 @@ describe("geom", () => {
         });
       });
 
-      context("when `origin` is not specified", () => {
-        it("should rotate the point around (0, 0)", () => {
+      context("when `center` is not specified", () => {
+        it("should rotate the point around the origin (0, 0)", () => {
           const p = new Point(2, 3);
           const q = p.rotate(Math.PI / 2);
           expect(q).to.be.an.instanceOf(Point);
