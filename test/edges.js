@@ -903,7 +903,7 @@ describe("edges", () => {
   /**
    * @test {intersections}
    */
-  describe("intersections(edge1, edge2, depth, maxIteration = -1)", () => {
+  describe("intersections(edge1, edge2, depth, resolution = 0, maxIteration = -1)", () => {
     const DEPTH = 20;
 
     context("line-line", () => {
@@ -1168,7 +1168,7 @@ describe("edges", () => {
   /**
    * @test {selfIntersections}
    */
-  describe("selfIntersections(edge, depth, maxIteration = -1)", () => {
+  describe("selfIntersections(edge, depth, resolution = 0, maxIteration = -1)", () => {
     const DEPTH = 20;
 
     context("line", () => {
