@@ -235,6 +235,32 @@ describe("geom", () => {
         });
       });
     });
+
+
+    /**
+     * @test {Point#scale2}
+     */
+    describe("#scale2(ratioX, ratioY, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a new Point object scaled by the ratio around the center", () => {
+          const p = new Point(1, 2);
+          const q = p.scale2(3, 4, new Point(-1, -1));
+          expect(q).to.be.an.instanceOf(Point);
+          expect(q.x).to.equal(5);
+          expect(q.y).to.equal(11);
+        });
+      });
+
+      context("when `center` is not specified", () => {
+        it("should return a new Point object scaled by the ratio around the origin", () => {
+          const p = new Point(1, 2);
+          const q = p.scale2(3, 4);
+          expect(q).to.be.an.instanceOf(Point);
+          expect(q.x).to.equal(3);
+          expect(q.y).to.equal(8);
+        });
+      });
+    });
   });
 
   /**
