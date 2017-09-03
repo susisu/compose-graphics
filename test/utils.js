@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { approx } from "../lib/utils.js";
+import { approx, snapToInteger } from "../lib/utils.js";
 
 describe("utils", () => {
   /**
@@ -27,6 +27,29 @@ describe("utils", () => {
         expect(approx(1, 1.5, 0.25)).to.be.false;
 
         expect(approx(1, 1, 0)).to.be.true;
+      });
+    });
+  });
+
+  /**
+   * @test {snapToInteger}
+   */
+  describe("snapToInteger(x, epsilon = Number.EPSILON)", () => {
+    context("when `epsilon` is not specified", () => {
+      it("should snap the number to an integer if the difference between them is less than `Number.EPSILON`", () => {
+        expect(snapToInteger(1)).to.equal(1);
+        expect(snapToInteger(0.25)).to.equal(0.25);
+        expect(snapToInteger(Number.EPSILON / 2)).to.equal(0);
+        expect(snapToInteger(1 + Number.EPSILON)).to.equal(1);
+        expect(snapToInteger(1 - Number.EPSILON)).to.equal(1 - Number.EPSILON);
+      });
+    });
+
+    context("when `epsilon` is specified", () => {
+      it("should snap the number to an integer if the difference between them is less than the given `epsilon`", () => {
+        expect(snapToInteger(1, 0.5)).to.equal(1);
+        expect(snapToInteger(0.25, 0.125)).to.equal(0.25);
+        expect(snapToInteger(0.125, 0.25)).to.equal(0);
       });
     });
   });
