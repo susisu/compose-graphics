@@ -1019,9 +1019,9 @@ describe("edges", () => {
   /**
    * @test {intersections}
    */
-  describe("intersections(edge1, edge2, depth, resolution = 0, maxIteration = -1)", () => {
-    const DEPTH = 20;
-    const RESOLUTION = 0;
+  describe("intersections(edge1, edge2, depth, epsilon = 16 * Number.EPSILON, maxIteration = -1)", () => {
+    const DEPTH = 54;
+    const EPSILON = 16 * Number.EPSILON;
     const MAX_ITER = -1;
 
     context("line-line", () => {
@@ -1029,31 +1029,31 @@ describe("edges", () => {
         {
           const edge1 = new Line(new Point(0, 0), new Point(3, 3));
           const edge2 = new Line(new Point(0, 2), new Point(1, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge1 = new Line(new Point(0, 0), new Point(1, 1));
           const edge2 = new Line(new Point(2, 2), new Point(3, 3));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge1 = new Line(new Point(0, 0), new Point(1, 1));
           const edge2 = new Line(new Point(1, 1), new Point(2, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
           const edge1 = new Line(new Point(0, 0), new Point(3, 3));
           const edge2 = new Line(new Point(0, 2), new Point(2, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
           const edge1 = new Line(new Point(0, 0), new Point(3, 3));
           const edge2 = new Line(new Point(0, 2), new Point(3, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
       });
@@ -1061,7 +1061,7 @@ describe("edges", () => {
       it("should return undefined if there are infinitely many intersections", () => {
         const edge1 = new Line(new Point(0, 0), new Point(3, 3));
         const edge2 = new Line(new Point(0, 0), new Point(2, 2));
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+        const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
@@ -1071,19 +1071,19 @@ describe("edges", () => {
         {
           const edge1 = new Line(new Point(1, 0), new Point(1, 2));
           const edge2 = new QuadraticBezier(new Point(0, 0), new Point(1, 1), new Point(0, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge1 = new Line(new Point(1, 0), new Point(1, 2));
           const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
           const edge1 = new Line(new Point(1, 0), new Point(1, 2));
           const edge2 = new QuadraticBezier(new Point(0, 0), new Point(3, 1), new Point(0, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(2);
         }
       });
@@ -1091,7 +1091,7 @@ describe("edges", () => {
       it("should return undefined if there are infinitely many intersections", () => {
         const edge1 = new Line(new Point(0, 0), new Point(3, 3));
         const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 2), new Point(1, 1));
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+        const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
@@ -1103,7 +1103,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(0, 0), new Point(2, 1), new Point(0, 2), new Point(1, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
@@ -1111,7 +1111,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(0, 0), new Point(4, 1), new Point(0, 2), new Point(4, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
@@ -1119,7 +1119,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(0, 0), new Point(8, 1), new Point(-4, 2), new Point(4, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(3);
         }
       });
@@ -1129,7 +1129,7 @@ describe("edges", () => {
         const edge2 = new CubicBezier(
           new Point(0, 0), new Point(2, 2), new Point(1, 1), new Point(3, 3)
         );
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+        const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
@@ -1139,25 +1139,25 @@ describe("edges", () => {
         {
           const edge1 = new QuadraticBezier(new Point(0, 0), new Point(1, 1), new Point(0, 2));
           const edge2 = new QuadraticBezier(new Point(2, 0), new Point(1, 1), new Point(2, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
           const edge2 = new QuadraticBezier(new Point(2, 0), new Point(0, 1), new Point(2, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
           const edge1 = new QuadraticBezier(new Point(0, 0), new Point(3, 1), new Point(0, 2));
           const edge2 = new QuadraticBezier(new Point(2, 0), new Point(-1, 1), new Point(2, 2));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(2);
         }
         {
           const edge1 = new QuadraticBezier(new Point(0, 1), new Point(6, 2), new Point(0, 3));
           const edge2 = new QuadraticBezier(new Point(1, 0), new Point(2, 6), new Point(3, 0));
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(4);
         }
       });
@@ -1165,7 +1165,7 @@ describe("edges", () => {
       it("should return undefined if there are infinitely many intersections", () => {
         const edge1 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
         const edge2 = new QuadraticBezier(new Point(0, 0), new Point(2, 1), new Point(0, 2));
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+        const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
@@ -1177,7 +1177,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(2, 0), new Point(1, 1), new Point(3, 2), new Point(2, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
@@ -1185,7 +1185,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(2, 0), new Point(-2, 1), new Point(3, 2), new Point(2, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(2);
         }
         {
@@ -1193,7 +1193,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(2, 0), new Point(-2, 1), new Point(3, 2), new Point(0, 2)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(3);
         }
         {
@@ -1201,7 +1201,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(1, 0), new Point(2, 8), new Point(3, -4), new Point(3, 4)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(6);
         }
       });
@@ -1211,7 +1211,7 @@ describe("edges", () => {
         const edge2 = new CubicBezier(
           new Point(0, 1), new Point(4 / 3, 7 / 3), new Point(8 / 3, 11 / 3), new Point(4, 5)
         );
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+        const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
@@ -1225,7 +1225,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(2, 0), new Point(1, 1), new Point(1, 2), new Point(2, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
@@ -1235,7 +1235,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(2, 0), new Point(-2, 1), new Point(2, 2), new Point(-2, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
@@ -1245,7 +1245,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(0, 0.1), new Point(1, 0), new Point(0, 1), new Point(1, 1)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
@@ -1255,7 +1255,7 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(6, 0), new Point(-4, 1), new Point(10, 2), new Point(0, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(3);
         }
         {
@@ -1265,20 +1265,30 @@ describe("edges", () => {
           const edge2 = new CubicBezier(
             new Point(0, 0), new Point(30, 1), new Point(-27, 2), new Point(3, 3)
           );
-          const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(9);
         }
       });
 
       it("should return undefined if there are infinitely many intersections", () => {
-        const edge1 = new CubicBezier(
-          new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
-        );
-        const edge2 = new CubicBezier(
-          new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
-        );
-        const is = intersections(edge1, edge2, DEPTH, RESOLUTION, MAX_ITER);
-        expect(is).to.be.undefined;
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+          );
+          const edge2 = new CubicBezier(
+            new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+          );
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
+          expect(is).to.be.undefined;
+        }
+        {
+          const edge1 = new CubicBezier(
+            new Point(0, 0), new Point(1, 1), new Point(1, 2), new Point(0, 3)
+          );
+          const edge2 = edge1.splitAt(1 / Math.sqrt(3))[1].splitAt(1 / Math.sqrt(2))[0];
+          const is = intersections(edge1, edge2, DEPTH, EPSILON, MAX_ITER);
+          expect(is).to.be.undefined;
+        }
       });
     });
   });
@@ -1286,21 +1296,21 @@ describe("edges", () => {
   /**
    * @test {selfIntersections}
    */
-  describe("selfIntersections(edge, depth, resolution = 0, maxIteration = -1)", () => {
+  describe("selfIntersections(edge, depth, epsilon = 16 * Number.EPSILON, maxIteration = -1)", () => {
     const DEPTH = 20;
-    const RESOLUTION = 0;
+    const EPSILON = 16 * Number.EPSILON;
     const MAX_ITER = -1;
 
     context("line", () => {
       it("should return an empty array since there cannot be any intersection", () => {
         {
           const edge = new Line(new Point(0, 0), new Point(1, 1));
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge = new Line(new Point(0, 0), new Point(0, 0));
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
       });
@@ -1310,12 +1320,12 @@ describe("edges", () => {
       it("should return an empty array unless there are infinitely many intersections", () => {
         {
           const edge = new QuadraticBezier(new Point(0, 0), new Point(1, 0), new Point(1, 1));
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge = new QuadraticBezier(new Point(0, 0), new Point(0, 0), new Point(0, 0));
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
       });
@@ -1323,7 +1333,7 @@ describe("edges", () => {
       it("should return undefined is there are infinitely many self-intersection points", () => {
         {
           const edge = new QuadraticBezier(new Point(0, 0), new Point(1, 1), new Point(0, 0));
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.undefined;
         }
       });
@@ -1335,35 +1345,35 @@ describe("edges", () => {
           const edge = new CubicBezier(
             new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge = new CubicBezier(
             new Point(0, 0), new Point(1, 1), new Point(0, 0), new Point(1, 1)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge = new CubicBezier(
             new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(0);
         }
         {
           const edge = new CubicBezier(
             new Point(0, 0), new Point(8, 0), new Point(1, -7), new Point(1, 1)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
           const edge = new CubicBezier(
             new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(0, 0)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
         {
@@ -1371,7 +1381,7 @@ describe("edges", () => {
             new Point(0, 0), new Point(0, 1), new Point(1, 1),
             new Point(0.5, (Math.sqrt(3 * (4 * 0.5 - 0.5 ** 2)) - 0.5) / 2)
           );
-          const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+          const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
           expect(is).to.be.an("array").of.length(1);
         }
       });
@@ -1380,7 +1390,7 @@ describe("edges", () => {
         const edge = new CubicBezier(
           new Point(0, 0), new Point(2, 2), new Point(-1, -1), new Point(1, 1)
         );
-        const is = selfIntersections(edge, DEPTH, RESOLUTION, MAX_ITER);
+        const is = selfIntersections(edge, DEPTH, EPSILON, MAX_ITER);
         expect(is).to.be.undefined;
       });
     });
