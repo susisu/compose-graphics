@@ -6,6 +6,14 @@ import { Line, QuadraticBezier, CubicBezier, intersectionsLL, intersections, sel
 describe("edges", () => {
   const EPS = 1e-8;
 
+  function expectArrayCloseTo(res, ans) {
+    expect(res).to.be.an("array").of.length(ans.length);
+    const r = res.sort((x, y) => x - y);
+    for (let i = 0; i < res.length; i++) {
+      expect(r[i]).to.be.closeTo(ans[i], EPS);
+    }
+  }
+
   /**
    * @test {Line}
    */
@@ -235,6 +243,39 @@ describe("edges", () => {
         const p2 = new Point(2, 3);
         const line = new Line(p1, p2);
         expect(line.deviationFromLine()).to.equal(0);
+      });
+    });
+
+    /**
+     * @test {Line#paramsForPoint}
+     */
+    describe("#paramsForPoint(point, epsilon = Number.EPSILON)", () => {
+      it("should return an array of parameters that give the specified point", () => {
+        {
+          const line = new Line(
+            new Point(1, 1),
+            new Point(2, 2)
+          );
+          expectArrayCloseTo(line.paramsForPoint(new Point(0, 0)), []);
+          expectArrayCloseTo(line.paramsForPoint(new Point(1, 1)), [0]);
+          expectArrayCloseTo(line.paramsForPoint(new Point(1.5, 1.5)), [0.5]);
+          expectArrayCloseTo(line.paramsForPoint(new Point(2, 2)), [1]);
+        }
+        {
+          const line = new Line(
+            new Point(1, 1),
+            new Point(1, 1)
+          );
+          expectArrayCloseTo(line.paramsForPoint(new Point(0, 0)), []);
+        }
+      });
+
+      it("should return undefined if all the parameters are degenerated", () => {
+        const line = new Line(
+          new Point(1, 1),
+          new Point(1, 1)
+        );
+        expect(line.paramsForPoint(new Point(1, 1))).to.be.undefined;
       });
     });
   });
@@ -516,6 +557,42 @@ describe("edges", () => {
           const curve = new QuadraticBezier(p1, p2, p3);
           expect(curve.deviationFromLine()).to.equal(Infinity);
         }
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#paramsForPoint}
+     */
+    describe("#paramsForPoint(point, epsilon = Number.EPSILON)", () => {
+      it("should return an array of parameters that give the specified point", () => {
+        {
+          const curve = new QuadraticBezier(
+            new Point(1, 1),
+            new Point(2, 1),
+            new Point(2, 2)
+          );
+          expectArrayCloseTo(curve.paramsForPoint(new Point(0, 0)), []);
+          expectArrayCloseTo(curve.paramsForPoint(new Point(1, 1)), [0]);
+          expectArrayCloseTo(curve.paramsForPoint(curve.pointAt(0.5)), [0.5]);
+          expectArrayCloseTo(curve.paramsForPoint(new Point(2, 2)), [1]);
+        }
+        {
+          const curve = new QuadraticBezier(
+            new Point(1, 1),
+            new Point(1, 1),
+            new Point(1, 1)
+          );
+          expectArrayCloseTo(curve.paramsForPoint(new Point(0, 0)), []);
+        }
+      });
+
+      it("should return undefined if all the parameters are degenerated", () => {
+        const curve = new QuadraticBezier(
+          new Point(1, 1),
+          new Point(1, 1),
+          new Point(1, 1)
+        );
+        expect(curve.paramsForPoint(new Point(1, 1))).to.be.undefined;
       });
     });
   });
@@ -851,6 +928,45 @@ describe("edges", () => {
           const curve = new CubicBezier(p1, p2, p3, p4);
           expect(curve.deviationFromLine()).to.equal(Infinity);
         }
+      });
+    });
+
+    /**
+     * @test {CubicBezier#paramsForPoint}
+     */
+    describe("#paramsForPoint(point, epsilon = Number.EPSILON)", () => {
+      it("should return an array of parameters that give the specified point", () => {
+        {
+          const curve = new CubicBezier(
+            new Point(1, 1),
+            new Point(1, 2),
+            new Point(2, 1),
+            new Point(2, 2)
+          );
+          expectArrayCloseTo(curve.paramsForPoint(new Point(0, 0)), []);
+          expectArrayCloseTo(curve.paramsForPoint(new Point(1, 1)), [0]);
+          expectArrayCloseTo(curve.paramsForPoint(curve.pointAt(0.5)), [0.5]);
+          expectArrayCloseTo(curve.paramsForPoint(new Point(2, 2)), [1]);
+        }
+        {
+          const curve = new CubicBezier(
+            new Point(1, 1),
+            new Point(1, 1),
+            new Point(1, 1),
+            new Point(1, 1)
+          );
+          expectArrayCloseTo(curve.paramsForPoint(new Point(0, 0)), []);
+        }
+      });
+
+      it("should return undefined if all the parameters are degenerated", () => {
+        const curve = new CubicBezier(
+          new Point(1, 1),
+          new Point(1, 1),
+          new Point(1, 1),
+          new Point(1, 1)
+        );
+        expect(curve.paramsForPoint(new Point(1, 1))).to.be.undefined;
       });
     });
   });
