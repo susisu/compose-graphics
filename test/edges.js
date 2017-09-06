@@ -153,6 +153,43 @@ describe("edges", () => {
     });
 
     /**
+     * @test {Line#scale}
+     */
+    describe("#scale(ratioX, ratioY, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a line segment scaled around the specified center", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const line = new Line(p1, p2);
+          const scaled = line.scale(2, 3, new Point(1, 1));
+          expect(scaled).to.be.an.instanceOf(Line);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(-1);
+          expect(scaled.start.y).to.equal(1);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(3);
+          expect(scaled.end.y).to.equal(7);
+        });
+      });
+
+      context("when `center` is not specified", () => {
+        it("should return a line segment scaled around the origin (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const line = new Line(p1, p2);
+          const scaled = line.scale(2, 3);
+          expect(scaled).to.be.an.instanceOf(Line);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(0);
+          expect(scaled.start.y).to.equal(3);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(4);
+          expect(scaled.end.y).to.equal(9);
+        });
+      });
+    });
+
+    /**
      * @test {Line#pointAt}
      */
     describe("#pointAt(t)", () => {
@@ -452,6 +489,51 @@ describe("edges", () => {
           expect(rotated.end).to.be.an.instanceOf(Point);
           expect(rotated.end.x).to.be.closeTo(-5, EPS);
           expect(rotated.end.y).to.be.closeTo(4, EPS);
+        });
+      });
+    });
+
+    /**
+     * @test {QuadraticBezier#scale}
+     */
+    describe("#scale(ratioX, ratioY, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a curve scaled around the specified center", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          const scaled = curve.scale(2, 3, new Point(1, 1));
+          expect(scaled).to.be.an.instanceOf(QuadraticBezier);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(-1);
+          expect(scaled.start.y).to.equal(1);
+          expect(scaled.control).to.be.an.instanceOf(Point);
+          expect(scaled.control.x).to.equal(3);
+          expect(scaled.control.y).to.equal(7);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(7);
+          expect(scaled.end.y).to.equal(13);
+        });
+      });
+
+      context("when `center` is not specified", () => {
+        it("should return a curve scaled around the origin (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const curve = new QuadraticBezier(p1, p2, p3);
+          const scaled = curve.scale(2, 3);
+          expect(scaled).to.be.an.instanceOf(QuadraticBezier);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(0);
+          expect(scaled.start.y).to.equal(3);
+          expect(scaled.control).to.be.an.instanceOf(Point);
+          expect(scaled.control.x).to.equal(4);
+          expect(scaled.control.y).to.equal(9);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(8);
+          expect(scaled.end.y).to.equal(15);
         });
       });
     });
@@ -809,6 +891,59 @@ describe("edges", () => {
           expect(rotated.end).to.be.an.instanceOf(Point);
           expect(rotated.end.x).to.be.closeTo(-7, EPS);
           expect(rotated.end.y).to.be.closeTo(6, EPS);
+        });
+      });
+    });
+
+    /**
+     * @test {CubicBezier#scale}
+     */
+    describe("#scale(ratioX, ratioY, center = new Point(0, 0))", () => {
+      context("when `center` is specified", () => {
+        it("should return a curve scaled around the specified center", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const p4 = new Point(6, 7);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          const scaled = curve.scale(2, 3, new Point(1, 1));
+          expect(scaled).to.be.an.instanceOf(CubicBezier);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(-1);
+          expect(scaled.start.y).to.equal(1);
+          expect(scaled.control1).to.be.an.instanceOf(Point);
+          expect(scaled.control1.x).to.equal(3);
+          expect(scaled.control1.y).to.equal(7);
+          expect(scaled.control2).to.be.an.instanceOf(Point);
+          expect(scaled.control2.x).to.equal(7);
+          expect(scaled.control2.y).to.equal(13);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(11);
+          expect(scaled.end.y).to.equal(19);
+        });
+      });
+
+      context("when `center` is not specified", () => {
+        it("should return a curve scaled around the origin (0, 0)", () => {
+          const p1 = new Point(0, 1);
+          const p2 = new Point(2, 3);
+          const p3 = new Point(4, 5);
+          const p4 = new Point(6, 7);
+          const curve = new CubicBezier(p1, p2, p3, p4);
+          const scaled = curve.scale(2, 3);
+          expect(scaled).to.be.an.instanceOf(CubicBezier);
+          expect(scaled.start).to.be.an.instanceOf(Point);
+          expect(scaled.start.x).to.equal(0);
+          expect(scaled.start.y).to.equal(3);
+          expect(scaled.control1).to.be.an.instanceOf(Point);
+          expect(scaled.control1.x).to.equal(4);
+          expect(scaled.control1.y).to.equal(9);
+          expect(scaled.control2).to.be.an.instanceOf(Point);
+          expect(scaled.control2.x).to.equal(8);
+          expect(scaled.control2.y).to.equal(15);
+          expect(scaled.end).to.be.an.instanceOf(Point);
+          expect(scaled.end.x).to.equal(12);
+          expect(scaled.end.y).to.equal(21);
         });
       });
     });
